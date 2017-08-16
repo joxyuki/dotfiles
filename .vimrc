@@ -98,7 +98,6 @@ endif
 " Required:
 filetype plugin indent on
 syntax enable
-"colorscheme jellybeans
 colorscheme molokai
 
 " If you want to install not installed plugins on startup.
@@ -118,14 +117,14 @@ let g:unite_source_file_mru_limit=50
 nnoremap [unite] <Nop>
 nmap <Space>u [unite]
 
-nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]t :<C-u>Unite buffer_tab<CR>
+"nnoremap <silent> [unite]t :<C-u>Unite buffer_tab<CR>
 nnoremap <silent> [unite]f :<C-u>Unite file<CR>
 nnoremap <silent> [unite]r :<C-u>Unite file_rec<CR>
 nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]o :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]l :<C-u>Unite line<CR>
+"nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
 
 "-- End unite -- 
 
