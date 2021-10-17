@@ -9,6 +9,10 @@ alias tw='tmux rename-window "$(basename $(git rev-parse --show-toplevel 2>/dev/
 alias pip-upgrade='pip list --outdated --format=freeze | cut -d= -f1 | xargs pip install -U'
 alias pip3-upgrade='pip3 list --outdated --format=freeze | cut -d= -f1 | xargs pip3 install -U'
 
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+    . `brew --prefix`/etc/bash_completion
+fi
+
 if type "ansible-playbook" > /dev/null 2>&1
 then
     alias ap='ansible-playbook'
