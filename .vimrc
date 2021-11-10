@@ -170,7 +170,8 @@ if (has('nvim-0.4.0') || v:version >= 800) && has('python3')
                              \ '.git', '--path', ':directory'])
     else
         call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor',
-                             \ '--nogroup', '--hidden', '--ignore', '.git', '-g', ''])
+                             \ '--nogroup', '--hidden', '-U', '--ignore', '.git',
+                             \ '-g', ''])
     endif
 
     let s:denite_win_width_percent = 0.7
