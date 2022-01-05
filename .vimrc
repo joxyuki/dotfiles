@@ -236,13 +236,13 @@ let g:lightline = {
 "----------
 nnoremap [fugitive] <Nop>
 nmap <Space>g [fugitive]
-nnoremap [fugitive]s :<C-u>Gstatus<CR><C-w>T:help fugitive_c<CR><C-w><C-w>
+nnoremap [fugitive]s :<C-u>Git<CR><C-w>T:help fugitive_c<CR><C-w><C-w>
 nnoremap [fugitive]a :<C-u>Gwrite<CR>
 nnoremap [fugitive]w :<C-u>Gwq<CR>
-nnoremap [fugitive]c :<C-u>Gcommit<CR>
-nnoremap [fugitive]m :<C-u>Gcommit --amend<CR>
-nnoremap [fugitive]d :<C-u>Gdiff<CR>
-nnoremap [fugitive]b :<C-u>Gblame<CR>
+nnoremap [fugitive]c :<C-u>Git commit<CR>
+nnoremap [fugitive]m :<C-u>Git commit --amend<CR>
+nnoremap [fugitive]d :<C-u>Gdiffsplit<CR>
+nnoremap [fugitive]b :<C-u>Git blame<CR>
 nnoremap [fugitive]r :<C-u>Gread<CR>
 nnoremap [fugitive]g :<C-u>Ggrep
 
