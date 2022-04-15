@@ -133,6 +133,7 @@ if has('nvim') || v:version >= 800
     filetype plugin indent on
     syntax enable
     colorscheme molokai
+    highlight Comment ctermfg=13 guifg=13
     highlight Normal ctermbg=NONE guibg=NONE
     highlight NonText ctermbg=NONE guibg=NONE
     highlight LineNr ctermbg=NONE guibg=NONE
