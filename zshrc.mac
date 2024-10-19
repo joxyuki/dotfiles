@@ -1,0 +1,18 @@
+# .zshrc for mac
+
+# User specific aliases and functions
+alias ls='ls -G'
+alias ll='ls -lG'
+alias la='ls -lAG'
+alias lr='less -r'
+alias tw='tmux rename-window "$(basename $(git rev-parse --show-toplevel 2>/dev/null || echo "${PWD/#$HOME/~}"))"'
+alias tsync='tmux set-window-option synchronize-panes'
+
+if [ -f ~/.zshrc_local ]; then
+    . ~/.zshrc_local
+fi
+
+if type "nvim" > /dev/null 2>&1; then
+    alias vim='nvim'
+    XDG_CONFIG_HOME=~/.config
+fi
