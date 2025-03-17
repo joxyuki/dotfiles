@@ -1,0 +1,91 @@
+" editing and saveing settings
+set autowrite
+set nobackup
+set clipboard+=unnamed
+set hidden              " enable buffer
+set switchbuf+=useopen
+
+" file encoding settings (windows only)
+if has('win32') || has('win64')
+    set fileencodings=iso-2022-jp-3,iso-2022-jp,euc-jisx0213,euc-jp,utf-8,ucs-bom,euc-jp,eucjp-ms,cp932,latin1   " encoding for reading
+    set fileformats=dos,unix,mac
+endif
+set modeline            " enable modeline
+
+set list                " visible <Tab> and other invisible chars
+set listchars=tab:>-,trail:-,extends:#,nbsp:-
+set textwidth=72        " max length of a line
+set tabstop=8           " number of spaces when displaying <Tab>
+set expandtab           " input spaces instead of <Tab>
+set shiftwidth=4        " number of spaces when inputting <Tab> automatically
+set softtabstop=4       " number of speces when inputting or deleting <Tab>
+set backspace=2
+"set whichwrap=4
+"set foldmethod=indent
+
+set showmatch           " hilight when "(" and ")" is input
+set spelllang=en,cjk
+set scrolloff=5
+
+set splitright
+
+" file type indent settings
+augroup fileTypeIndentAug
+    autocmd!
+    autocmd BufNewFile,BufRead *.{yml,yaml} setlocal ts=2 sw=2 sts=2
+augroup END
+
+" status line and related settings
+set laststatus=2        " always displays status line
+set number
+
+" search setting
+set ignorecase
+set smartcase
+set wrapscan
+set hlsearch
+
+" vimgrep
+augroup vimgrepAug
+    autocmd!
+    autocmd QuickFixCmdPost *grep* cwindow
+augroup END
+
+" diff setting
+set diffopt=filler,vertical
+if !exists(":DiffOrig")
+    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
+            \ | diffthis | wincmd p | diffthis
+endif
+
+" maps
+nnoremap <C-c><C-c> :<C-u>nohlsearch<CR><Esc>
+nnoremap qq: <Esc>q:
+nnoremap qq/ <Esc>q/
+
+nnoremap ;; 5j
+nnoremap :: :!
+nnoremap zi zizz
+
+nnoremap g// I// <ESC>
+nnoremap g/* O/* <ESC>
+nnoremap g*/ o */<ESC>
+nnoremap g3 I# <ESC>
+nnoremap g5 I% <ESC>
+nnoremap g2 I" <ESC>
+
+nnoremap Q <Nop>
+nnoremap q: <Nop>
+nnoremap q/ <Nop>
+nnoremap q? <Nop>
+
+" only for neovim
+if has('nvim')
+    tnoremap <silent> <ESC> <C-\><C-n>  " terminal emulator
+    if has('win32') || has('win64')
+        let g:python3_host_prog =
+            \'~\AppData\Local\Programs\Python\Python38-32\python.exe'
+    else
+        let g:python3_host_prog = system('echo -n `which python3`')
+    endif
+endif

@@ -98,56 +98,69 @@ do
     esac
 done
 
-msg="Create link .bashrc -> ${SCR_DIR}/.bashrc.<OS>"
-log INFO
-
-set +e
-case "${OS}" in
-    "ubuntu")
-        ln -snvf bashrc.ubuntu .bashrc ;;
-    "centos")
-        ln -snvf bashrc.centos .bashrc ;;
-    "mac")
-        ln -snvf bashrc.mac .bashrc ;;
-    *) ;;
-esac
-set -e
-
 msg="Install dotfiles..."
 log INFO
 
-for f in .??*; do
-    [ "${f}" = ".git" ] && continue
-    [ "${f}" = ".gitignore" ] && continue
-    [ "${f}" = ".gitconfig.local.template" ] && continue
-    [ "${f}" = ".gitmodules" ] && continue
-    [ "${f}" = ".tmux.conf" ] && ! type "tmux" > /dev/null 2>&1 &&\
-        msg="Skip .tmux.conf, tmux is not installed." &&\
-        log INFO &&\
-        continue
-
-    LN_NAME="${f}"
-    if [ "${f}" = ".bashrc" ]; then
-        case "${OS}" in
-            "ubuntu") LN_NAME=".bash_aliases" ;;
-            "centos") ;;
-            "mac") ;;
-            *) msg="Skipp .bashrc, your platform is not suppoted."
-               log WARNING
-               continue;;
-        esac
-    fi
-
+# shell
+case "${OS}" in
+    "ubuntu") SRC="shell/bashrc.ubuntu"; LN_NAME=".bash_aliases" ;;
+    "centos") SRC="shell/bashrc.centos"; LN_NAME=".bashrc" ;;
+    "mac") SRC="shell/zhrc"; LN_NAME=".zshrc";;
+esac
+if $LN_NAME; then
     if ${TEST_MODE}; then
-        msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/${f} ~/${LN_NAME}"
+        msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/${SRC} ~/${LN_NAME}"
         log INFO
     else
         set +e
-        ln ${LN_OPT} ${SCR_DIR}/${f} ~/${LN_NAME}
+        ln ${LN_OPT} ${SCR_DIR}/${SRC} ~/${LN_NAME}
         set -e
     fi
-done
+else
+    msg="Skipp .bashrc/.zshrc your platform is not suppoted."
+    log WARNING
+fi
 
+# tmux
+if type "tmux"; then
+    if ${TEST_MODE}; then
+        msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/tmux/tmux.conf ~/.tmux.conf"
+        log INFO
+    else
+        ln ${LN_OPT} ${SCR_DIR}/tmux/tmux.confi ~/.tmux.conf
+    fi
+else
+    msg="tmux is not installed. Skipping."
+    log INFO
+fi
+
+# git
+if type "git"; then
+    if ${TEST_MODE}; then
+        msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/git/gitconfig ~/.gitconfig"
+        log INFO
+    else
+        ln ${LN_OPT} ${SCR_DIR}/git/gitconfig ~/.gitconfig
+    fi
+else
+    msg="git is not installed. Skipping."
+    log INFO
+fi
+
+# vim
+if which -a vim | grep -v alias; then
+    if ${TEST_MODE}; then
+        msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/vim/vimrc ~/.vimrc"
+        log INFO
+    else
+        ln ${LN_OPT} ${SCR_DIR}/vim/vimrc ~/.vimrc
+    fi
+else
+    msg="Vim is not installed. Skipping."
+    log INFO
+fi
+
+# neovim
 if type "nvim"; then
     msg="Install Neovim settings..."
     log INFO
@@ -163,30 +176,15 @@ if type "nvim"; then
     fi
 
     if ${TEST_MODE}; then
-        msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/${f} ~/${LN_NAME}"
+        msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/nvim ~/.config/nvim"
         log INFO
     else
         set +e
-        ln ${LN_OPT} ${SCR_DIR}/.vim ~/.config/nvim
-        ln ${LN_OPT} ${SCR_DIR}/.vimrc ${SCR_DIR}/.vim/init.vim
-        set -e
-    fi
-
-    msg="Install dein.vim..."
-    log INFO
-    if ${TEST_MODE}; then
-        msg="(test mode) install dein.vim"
-        log INFO
-    else
-        set +e
-        curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > dein_installer.sh
-        chmod +x dein_installer.sh
-        /bin/bash dein_installer.sh ~/.cache/dein> /dev/null 2>&1
-        rm dein_installer.sh
+        ln ${LN_OPT} ${SCR_DIR}/nvim ~/.config/nvim
         set -e
     fi
 else
-    msg="Neovim is not installed. Skip Neovim related settings."
+    msg="Neovim is not installed. Skipping."
     log INFO
 fi
 
