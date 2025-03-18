@@ -98,7 +98,7 @@ do
     esac
 done
 
-msg="Install dotfiles..."
+msg="Installing dotfiles..."
 log INFO
 
 # shell
@@ -107,14 +107,12 @@ case "${OS}" in
     "centos") SRC="shell/bashrc.centos"; LN_NAME=".bashrc" ;;
     "mac") SRC="shell/zhrc"; LN_NAME=".zshrc";;
 esac
-if $LN_NAME; then
+if [ -n $LN_NAME ]; then
     if ${TEST_MODE}; then
         msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/${SRC} ~/${LN_NAME}"
         log INFO
     else
-        set +e
         ln ${LN_OPT} ${SCR_DIR}/${SRC} ~/${LN_NAME}
-        set -e
     fi
 else
     msg="Skipp .bashrc/.zshrc your platform is not suppoted."
@@ -122,7 +120,7 @@ else
 fi
 
 # tmux
-if type "tmux"; then
+if type "tmux" > /dev/null 2>&1; then
     if ${TEST_MODE}; then
         msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/tmux/tmux.conf ~/.tmux.conf"
         log INFO
@@ -135,7 +133,7 @@ else
 fi
 
 # git
-if type "git"; then
+if type "git" > /dev/null 2>&1; then
     if ${TEST_MODE}; then
         msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/git/gitconfig ~/.gitconfig"
         log INFO
@@ -148,7 +146,7 @@ else
 fi
 
 # vim
-if which -a vim | grep -v alias; then
+if which -a vim | grep -v alias > /dev/null 2>&1; then
     if ${TEST_MODE}; then
         msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/vim/vimrc ~/.vimrc"
         log INFO
@@ -161,9 +159,7 @@ else
 fi
 
 # neovim
-if type "nvim"; then
-    msg="Install Neovim settings..."
-    log INFO
+if type "nvim" > /dev/null 2>&1; then
     if [ ! -e ~/.config ]; then
         if ${TEST_MODE}; then
             msg="(test mode) mkdir ~/.config"
@@ -179,9 +175,7 @@ if type "nvim"; then
         msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/nvim ~/.config/nvim"
         log INFO
     else
-        set +e
         ln ${LN_OPT} ${SCR_DIR}/nvim ~/.config/nvim
-        set -e
     fi
 else
     msg="Neovim is not installed. Skipping."
