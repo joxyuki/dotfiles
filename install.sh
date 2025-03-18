@@ -125,7 +125,7 @@ if type "tmux" > /dev/null 2>&1; then
         msg="(test mode) ln ${LN_OPT} ${SCR_DIR}/tmux/tmux.conf ~/.tmux.conf"
         log INFO
     else
-        ln ${LN_OPT} ${SCR_DIR}/tmux/tmux.confi ~/.tmux.conf
+        ln ${LN_OPT} ${SCR_DIR}/tmux/tmux.conf ~/.tmux.conf
     fi
 else
     msg="tmux is not installed. Skipping."
