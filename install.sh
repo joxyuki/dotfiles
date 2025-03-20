@@ -105,7 +105,7 @@ log INFO
 case "${OS}" in
     "ubuntu") SRC="shell/bashrc.ubuntu"; LN_NAME=".bash_aliases" ;;
     "centos" | "redhat") SRC="shell/bashrc.centos"; LN_NAME=".bashrc" ;;
-    "mac") SRC="shell/zhrc"; LN_NAME=".zshrc";;
+    "mac") SRC="shell/zshrc.mac"; LN_NAME=".zshrc";;
 esac
 if [ -n $LN_NAME ]; then
     if ${TEST_MODE}; then
